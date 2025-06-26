@@ -1,5 +1,7 @@
 package com.example.finanzas
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.ImageView
@@ -15,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.math.pow
 import android.graphics.Typeface
 import android.view.Gravity
+import android.widget.Button
+import android.widget.Toast
 
 class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,35 @@ class ResultActivity : AppCompatActivity() {
 
         backArrow.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+
+        val edit = findViewById<Button>(R.id.result_edit)
+
+        val delete = findViewById<Button>(R.id.result_delete)
+
+        delete.setOnClickListener {
+            if (taskId != null && userId != null) {
+                firestore.collection("listasBonos")
+                    .document(userId)
+                    .collection("bonos")
+                    .document(taskId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Bono eliminado", Toast.LENGTH_SHORT).show()
+                        finish() // Cierra la actividad actual
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error al eliminar el bono: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+        edit.setOnClickListener {
+            if (taskId != null) {
+                val intent = Intent(this, EditActivity::class.java)
+                intent.putExtra("bono", taskId)
+                startActivity(intent)
+            }
         }
 
         if (taskId != null && userId != null) {
@@ -166,7 +199,7 @@ class ResultActivity : AppCompatActivity() {
                                 textView.setTextColor(Color.BLACK)
                                 textView.setBackgroundColor(Color.WHITE)
                                 textView.setPadding(16, 8, 16, 8)
-                                textView.textSize = 14f
+                                textView.textSize = 20f
                                 textView.gravity = Gravity.CENTER
                                 tableRow.addView(textView)
                             }
@@ -180,6 +213,11 @@ class ResultActivity : AppCompatActivity() {
                             saldoFinal = saldoInicial - amortizacion
                         }
                     }
+                }
+                .addOnFailureListener { e ->
+                    val intent1 = Intent(this, BondActivity::class.java)
+                    startActivity(intent1)
+                    finish()
                 }
         }
     }

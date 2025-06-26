@@ -8,6 +8,34 @@
     android:background="@drawable/fondo_cuadriculado"
     tools:context=".ResultActivity">
 
+    <Button
+        android:id="@+id/result_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#5E0000"
+        android:text="Editar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/result_Datos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/result_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#5E0000"
+        android:text="Borrar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/result_Datos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.302"
+        app:layout_constraintStart_toEndOf="@+id/result_edit"
+        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/result_NombroBono"
         android:layout_width="match_parent"
@@ -33,7 +61,7 @@
         android:id="@+id/result_Datos"
         android:layout_width="380dp"
         android:layout_height="38dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="52dp"
         android:gravity="center_vertical"
         android:text="Datos"
         android:textColor="@color/black"

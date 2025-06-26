@@ -2,6 +2,7 @@ package com.example.finanzas
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
@@ -14,8 +15,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.finanzas.databinding.ActivityFormBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.math.pow
 
-class FormActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityFormBinding
 
@@ -23,6 +25,8 @@ class FormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
+
+        val taskId = intent.getStringExtra("bono")
 
         setContentView(R.layout.activity_form)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -34,6 +38,8 @@ class FormActivity : AppCompatActivity() {
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         val buttonAdd = findViewById<Button>(R.id.form_Ingresar)
 
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -41,6 +47,8 @@ class FormActivity : AppCompatActivity() {
         val currentUser = firebaseAuth.currentUser
 
         val userId = firebaseAuth.currentUser?.uid
+
+
 
         //FLECHA PARA ATRÁS
         val backArrow = findViewById<ImageView>(R.id.form_Flecha)
@@ -65,6 +73,33 @@ class FormActivity : AppCompatActivity() {
 
         spinnerFrecuencia.adapter = adapterFrecuencia
         spinnerCAVALI.adapter = adapterCAVALI
+
+        if (taskId != null && userId != null) {
+            firestore.collection("listasBonos")
+                .document(userId)
+                .collection("bonos")
+                .document(taskId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        binding.formCapital.text = Editable.Factory.getInstance().newEditable(document.getDouble("capital").toString())
+                        binding.formCuotaInicial.text = Editable.Factory.getInstance().newEditable(document.getDouble("cuotaInicial").toString())
+                        binding.formTEA.text = Editable.Factory.getInstance().newEditable(document.getDouble("tea").toString())
+                        binding.formAnios.text = Editable.Factory.getInstance().newEditable(document.getLong("años")?.toInt().toString())
+                        binding.formNombreBono.text = Editable.Factory.getInstance().newEditable(document.getString("nombreBono").toString())
+                        if (document.getLong("frecuencia") == 6L) {
+                            binding.formFrecuencia.setSelection(0) // Frecuencia Semestral
+                        } else if (document.getLong("frecuencia") == 12L) {
+                            binding.formFrecuencia.setSelection(1) // Frecuencia Anual
+                        }
+                        if (document.getDouble("cavali") == 0.0525) {
+                            binding.formCAVALI.setSelection(0) // Incluir CAVALI
+                        } else {
+                            binding.formCAVALI.setSelection(1) // No incluir CAVALI
+                        }
+                    }
+                }
+        }
 
         if(userId != null){
 
@@ -106,27 +141,29 @@ class FormActivity : AppCompatActivity() {
                         "nombreBono" to nombreBono
                     )
 
-                    firestore.collection("listasBonos")
-                        .document(userId)
-                        .collection("bonos")
-                        .add(taskData)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Bono guardado", Toast.LENGTH_SHORT).show()
+                    if (taskId != null) {
+                        firestore.collection("listasBonos")
+                            .document(userId)
+                            .collection("bonos")
+                            .document(taskId)
+                            .set(taskData)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Bono actualizado", Toast.LENGTH_SHORT).show()
 
-                            binding.formCapital.text.clear()
-                            binding.formCuotaInicial.text.clear()
-                            binding.formTEA.text.clear()
-                            binding.formAnios.text.clear()
-                            binding.formNombreBono.text.clear()
+                                binding.formCapital.text.clear()
+                                binding.formCuotaInicial.text.clear()
+                                binding.formTEA.text.clear()
+                                binding.formAnios.text.clear()
+                                binding.formNombreBono.text.clear()
 
-                            //REGRESO A LA PANTALLA ANTERIOR(LISTA DE BONOS)
-                            val intent1 = Intent(this, BondActivity::class.java)
-                            startActivity(intent1)
-                            finish()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
-                        }
+                                //REGRESO A LA PANTALLA ANTERIOR(LISTA DE BONOS)
+                                val intent1 = Intent(this, BondActivity::class.java)
+                                startActivity(intent1)
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
                     Toast.makeText(this, "Ingresa una tarea válida", Toast.LENGTH_SHORT).show()
                 }

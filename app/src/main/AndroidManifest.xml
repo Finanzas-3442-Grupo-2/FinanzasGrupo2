@@ -24,6 +24,9 @@
             android:name=".BondActivity"
             android:exported="true" />
         <activity
+            android:name=".EditActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>

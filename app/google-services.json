@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1051382415621",
+    "project_id": "bono-corportativo",
+    "storage_bucket": "bono-corportativo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051382415621:android:3fdf156a480187b909376c",
+        "android_client_info": {
+          "package_name": "com.example.finanzas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk1j6WOQfPaEGHe_3FoebPdwAE24KCNgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

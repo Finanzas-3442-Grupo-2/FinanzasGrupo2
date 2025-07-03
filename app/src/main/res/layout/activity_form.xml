@@ -30,145 +30,206 @@
         android:layout_marginLeft="20dp"
         app:srcCompat="@drawable/arrow_back_ios" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_form_Capital"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:hint="Capital"
-        android:textColorHint="@color/black"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ingresaLosDatos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingresaLosDatos">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <EditText
-            android:id="@+id/form_Capital"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_form_TEA"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@color/white"
-        android:hint="TEA %"
-        android:textColorHint="@color/black"
-        app:helperTextTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_Capital">
+            <Spinner
+                android:id="@+id/form_ValorNominal"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/field_background"
+                android:popupBackground="@color/white"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingresaLosDatos" />
 
-        <EditText
-            android:id="@+id/form_TEA"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_TEA"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"
+                android:hint="TEA %"
+                android:textColorHint="@color/black"
+                app:helperTextTextColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_Capital">
 
-    <Spinner
-        android:id="@+id/form_Frecuencia"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/field_background"
-        android:popupBackground="@color/white"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_TEA" />
+                <EditText
+                    android:id="@+id/form_TEA"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_form_Anios"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Años"
-        app:helperTextTextColor="@color/black"
-        android:textColorHint="@color/black"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_Frecuencia">
+            <Spinner
+                android:id="@+id/form_Frecuencia"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/field_background"
+                android:popupBackground="@color/white"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_TEA" />
 
-        <EditText
-            android:id="@+id/form_Anios"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="number"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_Anios"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Años"
+                app:helperTextTextColor="@color/black"
+                android:textColorHint="@color/black"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/form_Frecuencia">
 
-    <Spinner
-        android:id="@+id/form_CAVALI"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/field_background"
-        android:popupBackground="@color/white"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_Anios" />
+                <EditText
+                    android:id="@+id/form_Anios"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_form_NombreBono"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Nombre del Bono"
-        app:helperTextTextColor="@color/black"
-        android:textColorHint="@color/black"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/form_CAVALI">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_GraciaTotal"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Periodos de Gracia Total"
+                app:helperTextTextColor="@color/black"
+                android:textColorHint="@color/black"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_Anios">
 
-        <EditText
-            android:id="@+id/form_NombreBono"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="text"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <EditText
+                    android:id="@+id/form_GraciaTotal"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/form_Ingresar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@color/red"
-        android:text="Ingresar"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_NombreBono" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_GraciaParcial"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Periodos de Gracia Parcial"
+                app:helperTextTextColor="@color/black"
+                android:textColorHint="@color/black"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_GraciaTotal">
+
+                <EditText
+                    android:id="@+id/form_GraciaParcial"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/form_CAVALI"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/field_background"
+                android:popupBackground="@color/white"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_GraciaParcial" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_NombreBono"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Nombre del Bono"
+                app:helperTextTextColor="@color/black"
+                android:textColorHint="@color/black"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/form_CAVALI">
+
+                <EditText
+                    android:id="@+id/form_NombreBono"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/form_Ingresar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="@color/red"
+                android:text="Ingresar"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_form_NombreBono" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

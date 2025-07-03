@@ -85,11 +85,13 @@ class ResultActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        val capital = document.getDouble("capital") ?: 0.0
+                        val valorNominal = document.getDouble("valorNominal") ?: 0.0
                         val tea = document.getDouble("tea") ?: 0.0
                         val frecuencia = document.getLong("frecuencia")?.toInt() ?: 0
                         val tes = (((1+(tea/100)).pow(1.0/2)) - 1) * 100
                         val anios = document.getLong("años")?.toInt() ?: 0
+                        val periodosGT = document.getLong("periodosGraciaTotal")?.toInt() ?: 0
+                        val periodosGP = document.getLong("periodosGraciaParcial")?.toInt() ?: 0
                         val cavali = document.getDouble("cavali")?: 0.0
                         val plazos = (anios * 12) / frecuencia  // IGV, por ejemplo
 
@@ -130,7 +132,7 @@ class ResultActivity : AppCompatActivity() {
                         }
 
                         //AGREGAR FILAS PARA LA TABLA DE LA SECCIÓN DATOS
-                        addRow(" Valor Nominal ", String.format("%,.2f $", capital))
+                        addRow(" Valor Nominal ", String.format("%,.2f $", valorNominal))
                         addRow(" Tasa Efectiva Anual ", String.format("%.2f %%", tea))
 
                         //MOSTRAR TES SOLO SI SE ELIGIÓ PERIODO SEMESTRAL
@@ -141,6 +143,8 @@ class ResultActivity : AppCompatActivity() {
 
                         addRow(" Frecuencia ", "$frecuencia meses")
                         addRow(" Años ", "$anios")
+                        addRow(" Periodos de G. Total ", "$periodosGT")
+                        addRow(" Periodos de G. Parcial ", "$periodosGP")
                         addRow(" CAVALI ", String.format("%.4f %%", cavali))
                         addRow(" Plazos ", "$plazos")
 
@@ -150,10 +154,10 @@ class ResultActivity : AppCompatActivity() {
                         tableLayout.removeAllViews() // Limpia la tabla por si tenía algo
 
                         val numFilas = plazos
-                        val numColumnas = 6
+                        val numColumnas = 7
 
                         // Opcional: encabezados
-                        val headers = listOf("N°", "S. Inicial", "Interés", "Cuota", "Amort.", "S. Final")
+                        val headers = listOf("N°", "P. Gracia", "S. Inicial", "Interés", "Cuota", "Amort.", "S. Final")
                         val headerRow = TableRow(this)
 
                         for (header in headers) {
@@ -172,27 +176,79 @@ class ResultActivity : AppCompatActivity() {
                         //TEP (SEGÚN LA FRECUENCIA) EN DECIMAL, NO EN PORCENTAJE
                         val tepDec = if(frecuencia == 6){ tes / 100} else { tea / 100}
 
-                        //VALORES EN MI PRIMERA INSTANCIA
-                        var saldoInicial = capital
-                        val cuota = saldoInicial * ((tepDec * ((1 + tepDec).pow(plazos))) / ((1 + tepDec).pow(plazos) - 1))
-                        var interes = saldoInicial * tepDec
-                        var amortizacion = cuota - interes
-                        var saldoFinal = saldoInicial - amortizacion
-                        var tcea = (((1+ tepDec).pow(plazos)) - 1) * 100
+                        // CALCULAR PLAZOS SIN GRACIA
+                        val plazosSinGracia = numFilas - (periodosGT + periodosGP)
 
+                        // PRIMER SALDO
+                        var saldoInicial = valorNominal
 
-                        //FILAS DINÁMICAS
+                        // Variables que se recalculan
+                        var interes: Double
+                        var cuota: Double = 0.0
+                        var amortizacion: Double
+                        var saldoFinal: Double
+
+                        // Control de contadores
+                        var contadorGT = 0
+                        var contadorGP = 0
+                        var contadorS = 0
+                        var finDePlazos = false
+
+                        var cuotaFija = 0.0 // cuota calculada una sola vez para 'sin gracia'
+
+                        // FILAS
                         for (i in 1..numFilas) {
+
                             val tableRow = TableRow(this)
 
-                            for (j in 1..numColumnas) {
+                            // Calcular interés cada período
+                            interes = saldoInicial * tepDec
+
+                            val tipoPlazo: String
+
+                            when {
+                                contadorGT < periodosGT -> {
+                                    // Total
+                                    cuota = 0.0
+                                    amortizacion = 0.0
+                                    saldoFinal = saldoInicial + interes
+                                    tipoPlazo = "T"
+                                    contadorGT++
+                                }
+
+                                contadorGP < periodosGP -> {
+                                    // Parcial
+                                    cuota = interes
+                                    amortizacion = 0.0
+                                    saldoFinal = saldoInicial // el saldo no cambia
+                                    tipoPlazo = "P"
+                                    contadorGP++
+                                }
+
+                                else -> {
+                                    // Sin gracia
+                                    if (!finDePlazos) {
+                                        cuotaFija = saldoInicial * ((tepDec * (1 + tepDec).pow(plazosSinGracia)) / ((1 + tepDec).pow(plazosSinGracia) - 1))
+                                        finDePlazos = true
+                                    }
+                                    cuota = cuotaFija
+                                    amortizacion = cuota - interes
+                                    saldoFinal = saldoInicial - amortizacion
+                                    tipoPlazo = "S"
+                                    contadorS++
+                                }
+                            }
+
+                            // AGREGAR CELDAS
+                            for (j in 1..7) {
                                 val cellText = when (j) {
-                                    1 -> "$i"// N° de Plazo
-                                    2 -> "%,.2f".format(saldoInicial)
-                                    3 -> "%,.2f".format(interes)
-                                    4 -> "%,.2f".format(cuota)
-                                    5 -> "%,.2f".format(amortizacion)
-                                    6 -> "%,.2f".format(saldoFinal)
+                                    1 -> "$i" // Nº
+                                    2 -> tipoPlazo
+                                    3 -> "%,.2f".format(saldoInicial)
+                                    4 -> "%,.2f".format(interes)
+                                    5 -> "%,.2f".format(cuota)
+                                    6 -> "%,.2f".format(amortizacion)
+                                    7 -> "%,.2f".format(saldoFinal)
                                     else -> ""
                                 }
 
@@ -201,20 +257,19 @@ class ResultActivity : AppCompatActivity() {
                                 textView.setTextColor(Color.BLACK)
                                 textView.setBackgroundColor(Color.WHITE)
                                 textView.setPadding(16, 8, 16, 8)
-                                textView.textSize = 20f
+                                textView.textSize = 14f
                                 textView.gravity = Gravity.CENTER
                                 tableRow.addView(textView)
                             }
 
                             tableLayout.addView(tableRow)
 
-                            //RECALCULAR DATOS PARA LA SIGUIENTE FILA (PLAZO)
+                            // EL SIGUIENTE SALDO INICIAL SIEMPRE VIENE DEL SALDO FINAL
                             saldoInicial = saldoFinal
-                            interes = saldoInicial * tepDec
-                            amortizacion = cuota - interes
-                            saldoFinal = saldoInicial - amortizacion
                         }
-                        var trea = ((((capital*((100+(tea*anios))/100)) / capital).pow(1/anios)) - 1)*100
+
+                        var tcea = (((1+ tepDec).pow(plazos)) - 1) * 100
+                        var trea = ((((valorNominal*((100+(tea*anios))/100)) / valorNominal).pow(1/anios)) - 1)*100
                         addRow(" TCEA ", String.format("%.2f %%", tcea),finales)
                         addRow(" TREA ", String.format("%.2f %%", trea),finales)
                     }

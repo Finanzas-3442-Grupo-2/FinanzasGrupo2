@@ -89,7 +89,7 @@
 
             <TableLayout
                 android:id="@+id/resultData"
-                android:layout_width="380dp"
+                android:layout_width="370dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/black"
@@ -142,6 +142,13 @@
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
+            <View
+                android:id="@+id/line"
+                android:layout_width="380dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black" />
+
             <TableLayout
                 android:id="@+id/resultFinal"
                 android:layout_width="380dp"
@@ -149,13 +156,6 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/black"
                 android:textSize="24dp" />
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="380dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black" />
         </LinearLayout>
     </ScrollView>
 

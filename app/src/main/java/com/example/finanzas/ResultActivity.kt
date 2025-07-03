@@ -39,6 +39,8 @@ class ResultActivity : AppCompatActivity() {
 
         val resultadoView = findViewById<TableLayout>(R.id.resultData)
 
+        val finales = findViewById<TableLayout>(R.id.resultFinal)
+
         //FLECHA PARA ATRÁS
         val backArrow = findViewById<ImageView>(R.id.result_Flecha)
 
@@ -84,7 +86,6 @@ class ResultActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         val capital = document.getDouble("capital") ?: 0.0
-                        val cuotaInicial = document.getDouble("cuotaInicial") ?: 0.0
                         val tea = document.getDouble("tea") ?: 0.0
                         val frecuencia = document.getLong("frecuencia")?.toInt() ?: 0
                         val tes = (((1+(tea/100)).pow(1.0/2)) - 1) * 100
@@ -93,7 +94,7 @@ class ResultActivity : AppCompatActivity() {
                         val plazos = (anios * 12) / frecuencia  // IGV, por ejemplo
 
                         //FUNCIÓN PARA AGREGAR FILAS A LA TABLA DE LA SECCIÓN DATOS
-                        fun addRow(label: String, value: String) {
+                        fun addRow(label: String, value: String, table: TableLayout = resultadoView) {
                             val row = TableRow(this)
 
                             val labelView = TextView(this).apply {
@@ -125,12 +126,11 @@ class ResultActivity : AppCompatActivity() {
 
                             row.addView(labelView)
                             row.addView(valueView)
-                            resultadoView.addView(row)
+                            table.addView(row)
                         }
 
                         //AGREGAR FILAS PARA LA TABLA DE LA SECCIÓN DATOS
-                        addRow(" Capital ", String.format("%,.2f $", capital))
-                        addRow(" Cuota Inicial ", String.format("%,.2f %%", cuotaInicial))
+                        addRow(" Valor Nominal ", String.format("%,.2f $", capital))
                         addRow(" Tasa Efectiva Anual ", String.format("%.2f %%", tea))
 
                         //MOSTRAR TES SOLO SI SE ELIGIÓ PERIODO SEMESTRAL
@@ -173,11 +173,13 @@ class ResultActivity : AppCompatActivity() {
                         val tepDec = if(frecuencia == 6){ tes / 100} else { tea / 100}
 
                         //VALORES EN MI PRIMERA INSTANCIA
-                        var saldoInicial = capital - capital*(cuotaInicial/100)
+                        var saldoInicial = capital
                         val cuota = saldoInicial * ((tepDec * ((1 + tepDec).pow(plazos))) / ((1 + tepDec).pow(plazos) - 1))
                         var interes = saldoInicial * tepDec
                         var amortizacion = cuota - interes
                         var saldoFinal = saldoInicial - amortizacion
+                        var tcea = (((1+ tepDec).pow(plazos)) - 1) * 100
+
 
                         //FILAS DINÁMICAS
                         for (i in 1..numFilas) {
@@ -212,6 +214,9 @@ class ResultActivity : AppCompatActivity() {
                             amortizacion = cuota - interes
                             saldoFinal = saldoInicial - amortizacion
                         }
+                        var trea = ((((capital*((100+(tea*anios))/100)) / capital).pow(1/anios)) - 1)*100
+                        addRow(" TCEA ", String.format("%.2f %%", tcea),finales)
+                        addRow(" TREA ", String.format("%.2f %%", trea),finales)
                     }
                 }
                 .addOnFailureListener { e ->

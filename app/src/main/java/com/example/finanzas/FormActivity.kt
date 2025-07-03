@@ -72,7 +72,6 @@ class FormActivity : AppCompatActivity() {
             buttonAdd.setOnClickListener {
 
                 val capital = binding.formCapital.text.toString().toDoubleOrNull()
-                val cuotaInicial = binding.formCuotaInicial.text.toString().toDoubleOrNull()
                 val tea = binding.formTEA.text.toString().toDoubleOrNull()
                 val anios = binding.formAnios.text.toString().toIntOrNull()
                 val nombreBono = binding.formNombreBono.text.toString().trim()
@@ -95,10 +94,9 @@ class FormActivity : AppCompatActivity() {
                     else -> 0.0525       // Valor por defecto en caso de que no se seleccione ninguna opción
                 }
 
-                if (capital != null && cuotaInicial != null && tea != null && anios != null && nombreBono.isNotEmpty() && currentUser != null) {
+                if (capital != null && tea != null && anios != null && nombreBono.isNotEmpty() && currentUser != null) {
                     val taskData = hashMapOf(
-                        "capital" to capital,
-                        "cuotaInicial" to cuotaInicial,
+                        "capital" to capital, // Asumiendo que cuotaInicial es 0.0 por defecto
                         "tea" to tea,
                         "frecuencia" to frecuencia,
                         "años" to anios,
@@ -114,7 +112,6 @@ class FormActivity : AppCompatActivity() {
                             Toast.makeText(this, "Bono guardado", Toast.LENGTH_SHORT).show()
 
                             binding.formCapital.text.clear()
-                            binding.formCuotaInicial.text.clear()
                             binding.formTEA.text.clear()
                             binding.formAnios.text.clear()
                             binding.formNombreBono.text.clear()

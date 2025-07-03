@@ -35,9 +35,9 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
+        android:background="@color/white"
         android:hint="Capital"
         android:textColorHint="@color/black"
-        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,43 +55,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_form_cuotaInicial"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:hint="Cuota inicial %"
-        app:helperTextTextColor="@color/black"
-        android:textColorHint="@color/black"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_Capital">
-
-        <EditText
-            android:id="@+id/form_cuotaInicial"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:padding="10dp"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_form_TEA"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:hint="TEA %"
-        app:helperTextTextColor="@color/black"
-        android:textColorHint="@color/black"
         android:background="@color/white"
+        android:hint="TEA %"
+        android:textColorHint="@color/black"
+        app:helperTextTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_form_cuotaInicial">
+        app:layout_constraintTop_toBottomOf="@+id/input_form_Capital">
 
         <EditText
             android:id="@+id/form_TEA"

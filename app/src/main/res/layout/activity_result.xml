@@ -15,12 +15,10 @@
         android:backgroundTint="#5E0000"
         android:text="Editar"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/result_Datos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono" />
 
     <Button
         android:id="@+id/result_delete"
@@ -29,12 +27,10 @@
         android:backgroundTint="#5E0000"
         android:text="Borrar"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/result_Datos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.302"
         app:layout_constraintStart_toEndOf="@+id/result_edit"
-        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/result_NombroBono" />
 
     <TextView
         android:id="@+id/result_NombroBono"
@@ -57,90 +53,110 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_back_ios" />
 
-    <TextView
-        android:id="@+id/result_Datos"
-        android:layout_width="380dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="52dp"
-        android:gravity="center_vertical"
-        android:text="Datos"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:textStyle="bold"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/result_NombroBono" />
+        app:layout_constraintTop_toBottomOf="@+id/result_delete">
 
-    <View
-        android:id="@+id/line1"
-        android:layout_width="380dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_Datos" />
-
-    <TableLayout
-        android:id="@+id/resultData"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_Datos" />
-
-    <TextView
-        android:id="@+id/result_Plazos"
-        android:layout_width="380dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center_vertical"
-        android:text="Detalles de Plazos"
-        android:textColor="@color/black"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/resultData" />
-
-    <View
-        android:id="@+id/line2"
-        android:layout_width="380dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_Plazos" />
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/result_Plazos"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TableLayout
-            android:id="@+id/paymentTable"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24dp"
-            android:stretchColumns="*"
-            android:orientation="vertical"
-            />
-    </HorizontalScrollView>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/result_Datos"
+                android:layout_width="380dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_vertical"
+                android:text="Datos"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="380dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black" />
+
+            <TableLayout
+                android:id="@+id/resultData"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/result_Plazos"
+                android:layout_width="380dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:text="Detalles de Plazos"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="380dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black" />
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="9dp"
+                android:fillViewport="true"
+                android:scrollbars="horizontal">
+
+                <TableLayout
+                    android:id="@+id/paymentTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:stretchColumns="*"
+                    android:textSize="24dp" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/result_finales"
+                android:layout_width="380dp"
+                android:layout_height="38dp"
+                android:gravity="center_vertical"
+                android:text="Resultados Finales"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:id="@+id/resultFinal"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:textSize="24dp" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="380dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

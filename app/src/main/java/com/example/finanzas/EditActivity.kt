@@ -83,7 +83,6 @@ class EditActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         binding.formCapital.text = Editable.Factory.getInstance().newEditable(document.getDouble("capital").toString())
-                        binding.formCuotaInicial.text = Editable.Factory.getInstance().newEditable(document.getDouble("cuotaInicial").toString())
                         binding.formTEA.text = Editable.Factory.getInstance().newEditable(document.getDouble("tea").toString())
                         binding.formAnios.text = Editable.Factory.getInstance().newEditable(document.getLong("años")?.toInt().toString())
                         binding.formNombreBono.text = Editable.Factory.getInstance().newEditable(document.getString("nombreBono").toString())
@@ -107,7 +106,6 @@ class EditActivity : AppCompatActivity() {
             buttonAdd.setOnClickListener {
 
                 val capital = binding.formCapital.text.toString().toDoubleOrNull()
-                val cuotaInicial = binding.formCuotaInicial.text.toString().toDoubleOrNull()
                 val tea = binding.formTEA.text.toString().toDoubleOrNull()
                 val anios = binding.formAnios.text.toString().toIntOrNull()
                 val nombreBono = binding.formNombreBono.text.toString().trim()
@@ -130,10 +128,9 @@ class EditActivity : AppCompatActivity() {
                     else -> 0.0525       // Valor por defecto en caso de que no se seleccione ninguna opción
                 }
 
-                if (capital != null && cuotaInicial != null && tea != null && anios != null && nombreBono.isNotEmpty() && currentUser != null) {
+                if (capital != null && tea != null && anios != null && nombreBono.isNotEmpty() && currentUser != null) {
                     val taskData = hashMapOf(
                         "capital" to capital,
-                        "cuotaInicial" to cuotaInicial,
                         "tea" to tea,
                         "frecuencia" to frecuencia,
                         "años" to anios,
@@ -151,7 +148,6 @@ class EditActivity : AppCompatActivity() {
                                 Toast.makeText(this, "Bono actualizado", Toast.LENGTH_SHORT).show()
 
                                 binding.formCapital.text.clear()
-                                binding.formCuotaInicial.text.clear()
                                 binding.formTEA.text.clear()
                                 binding.formAnios.text.clear()
                                 binding.formNombreBono.text.clear()

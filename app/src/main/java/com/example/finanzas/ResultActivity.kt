@@ -93,6 +93,8 @@ class ResultActivity : AppCompatActivity() {
                         val periodosGT = document.getLong("periodosGraciaTotal")?.toInt() ?: 0
                         val periodosGP = document.getLong("periodosGraciaParcial")?.toInt() ?: 0
                         val cavali = document.getDouble("cavali")?: 0.0
+                        val colocacion = document.getDouble("colocacion")?: 0.0
+                        val estructuracion = document.getDouble("estructuracion")?: 0.0
                         val plazos = (anios * 12) / frecuencia  // IGV, por ejemplo
 
                         //FUNCIÓN PARA AGREGAR FILAS A LA TABLA DE LA SECCIÓN DATOS
@@ -146,6 +148,8 @@ class ResultActivity : AppCompatActivity() {
                         addRow(" Periodos de G. Total ", "$periodosGT")
                         addRow(" Periodos de G. Parcial ", "$periodosGP")
                         addRow(" CAVALI ", String.format("%.4f %%", cavali))
+                        addRow(" Estructuracion ", String.format("%.4f %%", estructuracion))
+                        addRow(" Colocacion ", String.format("%.4f %%", colocacion))
                         addRow(" Plazos ", "$plazos")
 
                         //SECCIÓN DETALLES DE PLAZOS
@@ -190,6 +194,7 @@ class ResultActivity : AppCompatActivity() {
 
                         val flujosTIR_TCEA = mutableListOf<Double>()
                         val flujosTIR_TREA = mutableListOf<Double>()
+                        var precio = 0.0
                         flujosTIR_TCEA.add(saldoInicial)  // Flujo 0
                         flujosTIR_TREA.add(saldoInicial)  // Flujo 0
 
@@ -219,6 +224,7 @@ class ResultActivity : AppCompatActivity() {
                                     saldoFinal = saldoInicial + interes
                                     tipoPlazo = "T"
                                     contadorGT++
+                                    precio = precio + cuota
                                 }
 
                                 contadorGP < periodosGP -> {
@@ -226,10 +232,11 @@ class ResultActivity : AppCompatActivity() {
                                     cuota = interes
                                     amortizacion = 0.0
                                     saldoFinal = saldoInicial // el saldo no cambia
-                                    flujosTIR_TCEA.add((cuota+(cuota*cavali))*-1)
+                                    flujosTIR_TCEA.add((cuota+(cuota*(cavali/100))+(cuota*(estructuracion/100))+(cuota*(colocacion/100)))*-1)
                                     flujosTIR_TREA.add(cuota*-1)
                                     tipoPlazo = "P"
                                     contadorGP++
+                                    precio = precio + cuota
                                 }
 
                                 else -> {
@@ -245,6 +252,7 @@ class ResultActivity : AppCompatActivity() {
                                     flujosTIR_TREA.add(cuota*-1)
                                     tipoPlazo = "S"
                                     contadorS++
+                                    precio = precio + cuota
                                 }
                             }
 
@@ -322,6 +330,7 @@ class ResultActivity : AppCompatActivity() {
                         var trea = ((1.0 + TIR_TREA).pow(1) - 1.0)*100
                         addRow(" TCEA ", String.format("%.2f %%", tcea),finales)
                         addRow(" TREA ", String.format("%.2f %%", trea),finales)
+                        addRow(" Precio Venta ", String.format("%.2f", precio),finales)
                     }
                 }
                 .addOnFailureListener { e ->

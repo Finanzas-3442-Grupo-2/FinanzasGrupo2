@@ -136,6 +136,8 @@ class FormActivity : AppCompatActivity() {
                 }
                 val periodosGT = binding.formGraciaTotal.text.toString().toIntOrNull()
                 val periodosGP = binding.formGraciaParcial.text.toString().toIntOrNull()
+                val estructuracion = binding.formEstructuracion.text.toString().toDoubleOrNull()
+                val colocacion = binding.formColocacion.text.toString().toDoubleOrNull()
 
                 // Recuperar el valor seleccionado de los spinner
                 val valorNominalSeleccionado = spinnerValorNominal.selectedItem.toString()
@@ -177,7 +179,9 @@ class FormActivity : AppCompatActivity() {
                             "periodosGraciaTotal" to periodosGT,
                             "periodosGraciaParcial" to periodosGP,
                             "cavali" to cavali,
-                            "nombreBono" to nombreBono
+                            "nombreBono" to nombreBono,
+                            "colocacion" to colocacion,
+                            "estructuracion" to estructuracion
                         )
 
                         firestore.collection("listasBonos")
@@ -190,6 +194,10 @@ class FormActivity : AppCompatActivity() {
                                 binding.formTEA.text.clear()
                                 binding.formAnios.text.clear()
                                 binding.formNombreBono.text.clear()
+                                binding.formGraciaTotal.text.clear()
+                                binding.formGraciaParcial.text.clear()
+                                binding.formEstructuracion.text.clear()
+                                binding.formColocacion.text.clear()
 
                                 //REGRESO A LA PANTALLA ANTERIOR(LISTA DE BONOS)
                                 val intent1 = Intent(this, BondActivity::class.java)

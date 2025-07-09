@@ -193,14 +193,64 @@
                 app:layout_constraintTop_toBottomOf="@+id/input_form_GraciaParcial" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_form_NombreBono"
+                android:id="@+id/input_form_Colocacion"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:hint="Nombre del Bono"
+                android:hint="Colocacion"
                 app:helperTextTextColor="@color/black"
                 android:textColorHint="@color/black"
                 android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/form_CAVALI">
+
+                <EditText
+                    android:id="@+id/form_Colocacion"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_Estructuracion"
+                android:layout_width="249dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"
+                android:hint="Estructuracion"
+                android:textColorHint="@color/black"
+                app:helperTextTextColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/form_CAVALI">
+
+                <EditText
+                    android:id="@+id/form_Estructuracion"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_form_NombreBono"
+                android:layout_width="256dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"
+                android:hint="Nombre del Bono"
+                android:textColorHint="@color/black"
+                app:helperTextTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

@@ -136,6 +136,8 @@ class EditActivity : AppCompatActivity() {
                         binding.formNombreBono.text = Editable.Factory.getInstance().newEditable(document.getString("nombreBono").toString())
                         binding.formGraciaTotal.text = Editable.Factory.getInstance().newEditable(document.getLong("periodosGT")?.toInt().toString())
                         binding.formGraciaParcial.text = Editable.Factory.getInstance().newEditable(document.getLong("periodosGP")?.toInt().toString())
+                        binding.formColocacion.text = Editable.Factory.getInstance().newEditable(document.getDouble("colocacion").toString())
+                        binding.formEstructuracion.text = Editable.Factory.getInstance().newEditable(document.getDouble("estructuracion").toString())
 
                         if (document.getDouble("valorNominal") == 2000.0) {
                             binding.formFrecuencia.setSelection(0)
@@ -169,6 +171,8 @@ class EditActivity : AppCompatActivity() {
                 val tea = binding.formTEA.text.toString().toDoubleOrNull()
                 val anios = binding.formAnios.text.toString().toIntOrNull()
                 val nombreBono = binding.formNombreBono.text.toString().trim()
+                val estructuracion = binding.formEstructuracion.text.toString().toDoubleOrNull()
+                val colocacion = binding.formColocacion.text.toString().toDoubleOrNull()
                 if (binding.formGraciaTotal.text.toString() == ""){
                     binding.formGraciaTotal.setText("0")
                 }
@@ -202,7 +206,7 @@ class EditActivity : AppCompatActivity() {
                 //CAVALI-Convertir la opción seleccionada a un valor numérico
                 val cavali = when (CAVALISeleccionado) {
                     "Incluir CAVALI (0.0525%)" -> 0.0525
-                    "No incluir CAVALI (0.0525%)" -> 0.0
+                    "No incluir CAVALI" -> 0.0
                     else -> 0.0525       // Valor por defecto en caso de que no se seleccione ninguna opción
                 }
 
@@ -215,10 +219,12 @@ class EditActivity : AppCompatActivity() {
                             "tea" to tea,
                             "frecuencia" to frecuencia,
                             "años" to anios,
-                            "periodosGT" to periodosGT,
-                            "periodosGP" to periodosGP,
+                            "periodosGraciaTotal" to periodosGT,
+                            "periodosGraciaParcial" to periodosGP,
                             "cavali" to cavali,
-                            "nombreBono" to nombreBono
+                            "nombreBono" to nombreBono,
+                            "colocacion" to colocacion,
+                            "estructuracion" to estructuracion
                         )
 
                         if (taskId != null) {
@@ -235,6 +241,8 @@ class EditActivity : AppCompatActivity() {
                                     binding.formNombreBono.text.clear()
                                     binding.formGraciaTotal.text.clear()
                                     binding.formGraciaParcial.text.clear()
+                                    binding.formColocacion.text.clear()
+                                    binding.formEstructuracion.text.clear()
 
                                     //REGRESO A LA PANTALLA ANTERIOR(LISTA DE BONOS)
                                     val intent1 = Intent(this, BondActivity::class.java)

@@ -188,6 +188,11 @@ class ResultActivity : AppCompatActivity() {
                         var amortizacion: Double
                         var saldoFinal: Double
 
+                        val flujosTIR_TCEA = mutableListOf<Double>()
+                        val flujosTIR_TREA = mutableListOf<Double>()
+                        flujosTIR_TCEA.add(saldoInicial)  // Flujo 0
+                        flujosTIR_TREA.add(saldoInicial)  // Flujo 0
+
                         // Control de contadores
                         var contadorGT = 0
                         var contadorGP = 0
@@ -221,6 +226,8 @@ class ResultActivity : AppCompatActivity() {
                                     cuota = interes
                                     amortizacion = 0.0
                                     saldoFinal = saldoInicial // el saldo no cambia
+                                    flujosTIR_TCEA.add((cuota+(cuota*cavali))*-1)
+                                    flujosTIR_TREA.add(cuota*-1)
                                     tipoPlazo = "P"
                                     contadorGP++
                                 }
@@ -234,6 +241,8 @@ class ResultActivity : AppCompatActivity() {
                                     cuota = cuotaFija
                                     amortizacion = cuota - interes
                                     saldoFinal = saldoInicial - amortizacion
+                                    flujosTIR_TCEA.add((cuota+(cuota*cavali))*-1)
+                                    flujosTIR_TREA.add(cuota*-1)
                                     tipoPlazo = "S"
                                     contadorS++
                                 }
@@ -268,8 +277,49 @@ class ResultActivity : AppCompatActivity() {
                             saldoInicial = saldoFinal
                         }
 
-                        var tcea = (((1+ tepDec).pow(plazos)) - 1) * 100
-                        var trea = ((((valorNominal*((100+(tea*anios))/100)) / valorNominal).pow(1/anios)) - 1)*100
+                        fun calcularTIR(flujos: MutableList<Double>, guess: Double = 0.1): Double {
+                            var tir = guess
+                            val precision = 1e-7
+                            val maxIter = 1000
+
+                            for (i in 0 until maxIter) {
+                                var van = 0.0
+                                var vanDerivada = 0.0
+
+                                for (t in flujos.indices) {
+                                    val denominador = Math.pow(1 + tir, t.toDouble())
+                                    van += flujos[t] / denominador
+
+                                    if (t > 0) {
+                                        vanDerivada += -t * flujos[t] / (denominador * (1 + tir))
+                                    }
+                                }
+
+                                val nuevaTir = tir - van / vanDerivada
+
+                                if (Math.abs(nuevaTir - tir) < precision) {
+                                    return nuevaTir
+                                }
+
+                                tir = nuevaTir
+                            }
+
+                            throw RuntimeException("No converge: revisa el guess o el flujo")
+                        }
+
+                        val TIR_TCEA = calcularTIR(flujosTIR_TCEA)
+                        val TIR_TREA = calcularTIR(flujosTIR_TREA)
+
+                        var tcea = 0.0
+
+                        if(frecuencia == 6){//FRECUENCIA SEMESTRAL
+                            tcea = ((1.0 + TIR_TCEA).pow(2) - 1.0)*100
+                        }
+                        else{//FRECUENCIA ANUAL
+                            tcea = ((1.0 + TIR_TCEA).pow(1) - 1.0)*100
+                        }
+
+                        var trea = ((1.0 + TIR_TREA).pow(1) - 1.0)*100
                         addRow(" TCEA ", String.format("%.2f %%", tcea),finales)
                         addRow(" TREA ", String.format("%.2f %%", trea),finales)
                     }
